@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
+    "start": "node build/index.js",
+    "build": "tsc --project tsconfig.json",
     "start:dev": "nodemon --watch \"src/\" --exec \"ts-node src/index.ts\" -e ts"
   },
   "keywords": [],
