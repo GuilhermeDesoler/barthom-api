@@ -1,6 +1,7 @@
 import { User } from "../../models/user";
-import { IController } from "../protocols";
+import { IController, IHttpResponse } from "../protocols";
 import { IGetUsersRepository } from "./protocols";
+import { ok, serverError } from "../helpers";
 
 export class GetUsersController implements IController {
   constructor(getUsersRepository: IGetUsersRepository) {
@@ -9,18 +10,12 @@ export class GetUsersController implements IController {
 
   getUsersRepository: IGetUsersRepository;
 
-  async handle() {
+  async handle(): Promise<IHttpResponse<User[] | string>> {
     try {
       const users: User[] = await this.getUsersRepository.getUsers();
-      return {
-        statusCode: 500,
-        body: users,
-      };
+      return ok<User[]>(users);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong.",
-      };
+      return serverError();
     }
   }
 }

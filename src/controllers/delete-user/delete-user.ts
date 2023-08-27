@@ -1,4 +1,5 @@
 import { User } from "../../models/user";
+import { badRequest, ok, serverError } from "../helpers";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 import { IDeleteUserRespository } from "./protocols";
 
@@ -9,28 +10,21 @@ export class DeleteUserController implements IController {
 
   deleteUserRepository: IDeleteUserRespository;
 
-  async handle(httpRequest: IHttpRequest<any>): Promise<IHttpResponse<User>> {
+  async handle(
+    httpRequest: IHttpRequest<any>
+  ): Promise<IHttpResponse<User | string>> {
     try {
       const id = httpRequest?.params?.id;
 
       if (!id) {
-        return {
-          statusCode: 400,
-          body: "Missing user id.",
-        };
+        return badRequest("Missing user id.");
       }
 
       const user = await this.deleteUserRepository.deleteUser(id);
 
-      return {
-        statusCode: 200,
-        body: user,
-      };
+      return ok<User>(user);
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong",
-      };
+      return serverError();
     }
   }
 }
