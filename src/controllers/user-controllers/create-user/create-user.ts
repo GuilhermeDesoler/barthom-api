@@ -1,6 +1,6 @@
-import { User } from "../../models/user";
-import { badRequest, created, serverError } from "../helpers";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { User } from "../../../models/user";
+import { badRequest, created, serverError } from "../../helpers";
+import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
 import { CreateUserParams, ICreateUserRepository } from "./protocols";
 import validator from "validator";
 
