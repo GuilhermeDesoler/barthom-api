@@ -1,7 +1,7 @@
-import { User } from "../../models/user";
-import { IController, IHttpResponse } from "../protocols";
+import { User } from "../../../models/user";
+import { IController, IHttpResponse } from "../../protocols";
 import { IGetUsersRepository } from "./protocols";
-import { ok, serverError } from "../helpers";
+import { ok, serverError } from "../../helpers";
 
 export class GetUsersController implements IController {
   constructor(getUsersRepository: IGetUsersRepository) {

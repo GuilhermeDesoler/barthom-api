@@ -1,15 +1,19 @@
 import express, { Request, Response } from "express";
 
 import { config } from "dotenv";
-import { GetUsersController } from "./controllers/get-users/get-users";
-import { MongoGetUsersRepositoryImpl } from "./repositories/get-users/mongo-get-users";
+import { GetUsersController } from "./controllers/user-controllers/get-users/get-users";
 import { MongoClient } from "./database/mongo";
-import { MongoCreateUserRepositoryImpl } from "./repositories/create-user/mongo-create-user";
-import { CreateUserController } from "./controllers/create-user/create-user";
-import { MongoUpdateUserRepositoryImpl } from "./repositories/update-user/mongo-update-user";
-import { UpdateUserController } from "./controllers/update-user/update-user";
-import { DeleteUserController } from "./controllers/delete-user/delete-user";
-import { MongoDeleteUserRepositoryImpl } from "./repositories/delete-user/mongo-delete-user";
+import { CreateUserController } from "./controllers/user-controllers/create-user/create-user";
+import { UpdateUserController } from "./controllers/user-controllers/update-user/update-user";
+import { DeleteUserController } from "./controllers/user-controllers/delete-user/delete-user";
+import { MongoCreateUserRepositoryImpl } from "./repositories/user-repositories/create-user/mongo-create-user";
+import { MongoGetUsersRepositoryImpl } from "./repositories/user-repositories/get-users/mongo-get-users";
+import { MongoUpdateUserRepositoryImpl } from "./repositories/user-repositories/update-user/mongo-update-user";
+import { MongoDeleteUserRepositoryImpl } from "./repositories/user-repositories/delete-user/mongo-delete-user";
+import { MongoGetProductsRepositoryImpl } from "./repositories/product-respositories/get-products/mongo-get-products";
+import { GetProductsController } from "./controllers/product-controllers/get-products/get-products";
+import { MongoGetProductByIdRepositoryImpl } from "./repositories/product-respositories/get-product-by-id/mongo-get-product-by-id";
+import { GetProductByIdController } from "./controllers/product-controllers/get-product-by-id/get-product-by-id";
 
 const main = async () => {
   config();
@@ -64,6 +68,31 @@ const main = async () => {
     );
 
     const { body, statusCode } = await deleteUserController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.get("/products", async (_, res: Response) => {
+    const mongoGetProductsRepository = new MongoGetProductsRepositoryImpl();
+    const getProductsController = new GetProductsController(
+      mongoGetProductsRepository
+    );
+
+    const { body, statusCode } = await getProductsController.handle();
+
+    res.status(statusCode).send(body);
+  });
+
+  app.get("/products/:id", async (req: Request, res: Response) => {
+    const mongoGetProductByIdRepository =
+      new MongoGetProductByIdRepositoryImpl();
+    const getProductByIdController = new GetProductByIdController(
+      mongoGetProductByIdRepository
+    );
+
+    const { body, statusCode } = await getProductByIdController.handle({
       params: req.params,
     });
 
