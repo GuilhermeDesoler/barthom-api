@@ -25,6 +25,12 @@ const main = async () => {
 
   await MongoClient.connect();
 
+  app.get("/", (_, res: Response) => {
+    const welcomeMessage = "Hello World!";
+
+    res.status(200).send(welcomeMessage);
+  });
+
   app.get("/users", async (_, res: Response) => {
     const mongoGetUsersRepository = new MongoGetUsersRepositoryImpl();
     const getUsersController = new GetUsersController(mongoGetUsersRepository);
