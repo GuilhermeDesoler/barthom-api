@@ -1,7 +1,8 @@
 import { User } from "../../models/user";
-import { IGetUsersRepository, IGetUsersController } from "./protocols";
+import { IController } from "../protocols";
+import { IGetUsersRepository } from "./protocols";
 
-export class GetUsersController implements IGetUsersController {
+export class GetUsersController implements IController {
   constructor(getUsersRepository: IGetUsersRepository) {
     this.getUsersRepository = getUsersRepository;
   }

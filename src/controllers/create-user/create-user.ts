@@ -1,13 +1,9 @@
 import { User } from "../../models/user";
-import { IHttpRequest, IHttpResponse } from "../protocols";
-import {
-  CreateUserParams,
-  ICreateUserController,
-  ICreateUserRepository,
-} from "./protocols";
+import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { CreateUserParams, ICreateUserRepository } from "./protocols";
 import validator from "validator";
 
-export class CreateUserController implements ICreateUserController {
+export class CreateUserController implements IController {
   constructor(createUserRepository: ICreateUserRepository) {
     this.createUserRepository = createUserRepository;
   }
