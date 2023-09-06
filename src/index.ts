@@ -115,7 +115,7 @@ const main = async () => {
     );
 
     const { body, statusCode } = await createProductController.handle({
-      params: req.params,
+      body: req.body,
     });
 
     res.status(statusCode).send(body);

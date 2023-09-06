@@ -9,7 +9,7 @@ export interface CreateProductParams {
   shorDescription: string;
   colors: string[];
   sizes: string[];
-  price: number[];
+  price: number;
 }
 
 export interface ICreateProductRepository {

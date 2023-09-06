@@ -10,9 +10,11 @@ export class MongoCreateProductRepositoryImpl
   implements ICreateProductRepository
 {
   async createProduct(params: CreateProductParams): Promise<Product> {
+    const creationDate = new Date();
+    
     const { insertedId } = await MongoClient.db
       .collection("products")
-      .insertOne(params);
+      .insertOne({ ...params, createdAt: creationDate.toDateString()});
 
     const product = await MongoClient.db
       .collection<MongoProduct>("products")

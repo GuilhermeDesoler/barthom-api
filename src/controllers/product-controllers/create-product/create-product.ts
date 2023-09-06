@@ -20,14 +20,14 @@ export class CreateProductController implements IController {
         "images",
         "brand",
         "description",
-        "shorDescription",
+        "shortDescription",
         "colors",
         "sizes",
         "price",
       ];
 
       for (const field of requiredFields) {
-        if (!httpRequest?.body?.[field as keyof CreateProductParams]?.length) {
+        if (!httpRequest?.body?.[field as keyof CreateProductParams]) {
           return badRequest(`Field ${field} is required`);
         }
       }
