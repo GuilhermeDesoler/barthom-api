@@ -14,6 +14,8 @@ import { MongoGetProductsRepositoryImpl } from "./repositories/product-resposito
 import { GetProductsController } from "./controllers/product-controllers/get-products/get-products";
 import { MongoGetProductByIdRepositoryImpl } from "./repositories/product-respositories/get-product-by-id/mongo-get-product-by-id";
 import { GetProductByIdController } from "./controllers/product-controllers/get-product-by-id/get-product-by-id";
+import { MongoCreateProductRepositoryImpl } from "./repositories/product-respositories/create-product/mongo-create-product";
+import { CreateProductController } from "./controllers/product-controllers/create-product/create-product";
 
 const main = async () => {
   config();
@@ -99,6 +101,20 @@ const main = async () => {
     );
 
     const { body, statusCode } = await getProductByIdController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.post("/products", async (req: Request, res: Response) => {
+    const mongoCreateProductRespository =
+      new MongoCreateProductRepositoryImpl();
+    const createProductController = new CreateProductController(
+      mongoCreateProductRespository
+    );
+
+    const { body, statusCode } = await createProductController.handle({
       params: req.params,
     });
 
